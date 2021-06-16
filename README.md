@@ -1,6 +1,5 @@
 # unir-c2
-
-Caso Practico 2 - UNIR
+Caso Practico 2 - UNIR -
 
 En este repositorio veremos como desplegar con Terraform en AZURE y como instalar con ANSIBLE un cluster de Kubernetes compuesto de los siguientes equipos
 
