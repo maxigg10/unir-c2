@@ -66,16 +66,22 @@ provider "azurerm" {
 }
 
   subscription_id --> lo obtenemos del portal de azure en suscripciones
+
   client_id       --> lo obtenemos de la salida del service principal "name"
+
   client_secret   --> lo obtenemos de la salida del service principal "secret"
+
   tenant_id       --> lo obtenemos de la salida del service principal "tenant"
+
 
 # Ejecucion plan terraform #
 Nos posicionamos dentro de la carpeta terraform del repositorio y realizamos
 
 
 az vm image accept-terms --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810
+
 az vm image terms show --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810
+
 
 El primer comando es para aceptar los terminos de uso de la imagen que tenemos en el plan de terraform. Es un Centos-8-stream-free
 
@@ -83,8 +89,11 @@ Despues realizamos lo siguiente
 
 
 terraform init
+
 terraform validate
+
 terraform apply
 
 Para destruir el entorno hacemos
+
 terraform destroy
