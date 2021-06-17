@@ -57,13 +57,21 @@ https://www.terraform.io/docs/cli/install/yum.html
 
 Debemos crear un fichero credentials.tf con el siguiente contenido
 
+
 provider "azurerm" {
+
   features {}
+
   subscription_id = "id suscripcion entorno AZURE" 
+
   client_id       = "id client"
+
   client_secret   = "id password"
+
   tenant_id       = "id del tenant de Azure"
+
 }
+
 
   subscription_id --> lo obtenemos del portal de azure en suscripciones
 
