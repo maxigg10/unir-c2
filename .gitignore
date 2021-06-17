@@ -5,6 +5,13 @@
 *.tfstate
 *.tfstate.*
 
+credentials.tf
+credentials.tf.secret
+credentials.tf.clear
+.terraform*
+*tfstate*
+
+
 # Crash log files
 crash.log
 
