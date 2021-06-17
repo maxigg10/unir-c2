@@ -42,30 +42,5 @@ resource "azurerm_linux_virtual_machine" "myVM1" {
     tags = {
         environment = "CP2"
     }
-/*
-    provisioner "file" {
-        source      = "custom_files/hosts"
-        destination = "/etc/hosts"
 
-        connection {
-            type     = "ssh"
-            user     = var.ssh_user
-            password = "${var.root_password}"
-            host     = "${var.host}"
-  }
-    }
-    provisioner "file" {
-        connection {
-            type = "ssh"
-            user = "ubuntu"
-            host = azurerm_public_ip.terraform-PUBLIC-IP.ip_address
-            private_key = file("/home/ubuntu/.ssh/id_rsa")
-            agent    = false
-            timeout  = "10m"
-    }
-        source = "/home/ubuntu/.ssh/terraform.pub"
-        destination = "/home/ubuntu/.ssh/terraform.pub"
-  }
-
-    */
 }
