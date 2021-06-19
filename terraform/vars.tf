@@ -9,7 +9,26 @@ variable "location" {
 
 variable "vm_size" {
   type = string
-  description = "Tamaño de la máquina virtual"
+  description = "Tamaño de la máquina virtual Master"
   #default = "Standard_D1_v2" # 3.5 GB, 1 CPU 
   default = "Standard_B2s" # 4 GB, 2 CPU 
+}
+
+variable "vm_size2" {
+  type = string
+  description = "Tamaño de la máquina virtual Worker01"
+  default = "Standard_D1_v2" # 3.5 GB, 1 CPU 
+  
+}
+variable "vm_size3" {
+  type = string
+  description = "Tamaño de la máquina virtual Worker02"
+  default = "Standard_D1_v2" # 3.5 GB, 1 CPU 
+  
+}
+variable "vm_size4" {
+  type = string
+  description = "Tamaño de la máquina virtual NFS"
+  #default = "Standard_B1s" # 1 GB, 1 CPU 
+  default = "Standard_D1_v2" # 3.5 GB, 1 CPU
 }
