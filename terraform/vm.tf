@@ -11,7 +11,6 @@ resource "azurerm_linux_virtual_machine" "myVM1" {
     disable_password_authentication = true
     computer_name = "master.ipxsistemas.com"
     
-
     admin_ssh_key {
         username   = var.ssh_user
         public_key = file(var.public_key_path)
@@ -43,4 +42,6 @@ resource "azurerm_linux_virtual_machine" "myVM1" {
         environment = "CP2"
     }
 
+
 }
+

@@ -1,0 +1,9 @@
+#### Reboot. Lo separe porque en el playbook inicial terminaba con error ya que no recibe 
+#### el estado final de la ejecucion del playbook. Solo  necesitaba un reboot
+- hosts: all
+  become: yes 
+
+  tasks:
+  - name: Reboot all VMs for applying SELinux config
+    reboot:
+      reboot_timeout: 3
