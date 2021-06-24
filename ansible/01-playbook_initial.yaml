@@ -1,5 +1,5 @@
 ---
-#### Configuracion de Chrony y Timedatectl ####
+#### Configuration Chrony & Timedatectl ####
 - hosts: all
   become: yes 
 
@@ -27,7 +27,7 @@
   - name: Enable ntp
     command: /usr/bin/timedatectl set-ntp true
 
-#### Deshabilitar SELinux ####
+#### Disable SELinux ####
   - name: Disable SELinux
     selinux:
       state: disabled
@@ -52,8 +52,25 @@
         - lsof
       state: latest
  
-#### Reboot each Virtual Machine ####
-  #- name: Reboot all VMs for applying SELinux config
-  #  reboot:
-  #    reboot_timeout: 3
+#- name: Add lines en export file
+#  lineinfile:
+#    path: /etc/exports
+#    state: present
+#    line: "{{ item }}"
+
+###CONFIG for Local
+#  with_items:
+#  - '192.168.0.3 master.ipxsistemas.com '
+#  - '192.168.0.4 worker01.ipxsistemas.com'
+#  - '192.168.0.5 worker02.ipxsistemas.com'
+#  - '192.168.0.6 worker04.ipxsistemas.com'
+
+###CONFIG for Azure
+#  with_items:
+#  - '10.0.1.10 master.ipxsistemas.com '
+#  - '10.0.1.11 worker01.ipxsistemas.com'
+#  - '10.0.1.12 worker02.ipxsistemas.com'
+#  - '10.0.1.13 worker04.ipxsistemas.com'
+    
+  
   

@@ -1,0 +1,56 @@
+---
+#### NFS ####
+- hosts: nfs
+  become: yes 
+
+  
+  tasks:
+  - name: Create directory for NFS
+    file:
+      path: /src/nfs
+      state: directory
+      owner: maxigg
+      group: maxigg
+      mode: 0777
+
+  - name: Packages for NFS 
+    dnf:
+      name:
+        - net-tools
+        - nfs-utils
+      state: latest
+
+  - name: Start and Enable NFS service
+    systemd: 
+      name: nfs-server
+      state: started
+      daemon_reload: yes
+      enabled: yes
+
+  - name: Add lines en export file
+    lineinfile:
+      path: /etc/exports
+      state: present
+      line: "{{ item }}"
+    with_items:
+    ###CONFIG for Local
+    - '/srv/nfs  192.168.0.3(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+    - '/srv/nfs  192.168.0.4(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+    - '/srv/nfs  192.168.0.5(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+
+    ###CONFIG for AZURE
+    #- '/srv/nfs  10.0.1.10(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+    #- '/srv/nfs  10.0.1.11(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+    #- '/srv/nfs  10.0.1.12(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+        
+  - name: Allow Network Ports in Firewalld
+    firewalld:
+        service: "{{ item }}"
+        state: enabled
+        permanent: yes
+        immediate: yes
+    with_items: 
+      - "nfs"
+      - "rpc-bind"
+      - "mountd"
+
