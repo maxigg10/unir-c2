@@ -1,0 +1,66 @@
+---
+
+- hosts: master
+  become: yes
+
+  tasks:
+
+  - name: Allow Port K8s services
+    firewalld:
+      permanent: yes
+      immediate: yes
+      port: "{{item.port}}/{{item.proto}}"
+      state: "{{item.state}}"
+
+    with_items:
+      - {port: "6443", proto: "tcp", state: "enabled"}
+      - {port: "2379-2380", proto: "tcp", state: "enabled"}
+      - {port: "10250-10252", proto: "tcp", state: "enabled"}
+      - {port: "10255", proto: "tcp", state: "enabled"}
+      - {port: "80", proto: "tcp", state: "enabled"}
+      - {port: "443", proto: "tcp", state: "enabled"}
+
+
+  - name: Allow Workers access and Allow containers access to localhost
+    firewalld:
+      rich_rule: "{{item}}"
+      permanent: yes
+      immediate: yes
+      state: enabled
+    with_items:
+      - 'rule family=ipv4 source address=192.168.0.4/32 accept'
+      - 'rule family=ipv4 source address=192.168.0.5/32 accept'
+      - 'rule family=ipv4 source address=172.17.0.0/16 accept'
+
+      #### for AZURE
+      #- 'rule family=ipv4 source address=10.0.1.11/32'
+      #- 'rule family=ipv4 source address=10.0.1.12/32'
+      #- 'rule family=ipv4 source address=172.17.0.0/16'
+
+ 
+  - name: Pull images Kubeadm
+    command: kubeadm config images pull  
+
+  - name: Kubeadm init pod network
+    command: kubeadm init --pod-network-cidr 192.169.0.0/16
+
+  - name: Generate join command
+    command: kubeadm token create --print-join-command
+    register: join_command
+
+  - name: Copy join command to local file
+    local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
+    become: no
+
+    ######### NO hizo falta porque funciona el kubectl
+  #- name: Export Kubeconfig to Root
+  #  command: export KUBECONFIG=/etc/kubernetes/admin.conf
+  #  become: true
+
+  - name: Rights to root 
+    command: "{{ item }}"
+    with_items:
+     - mkdir -p /root/.kube
+     - cp /etc/kubernetes/admin.conf /root/.kube/config
+     - chown root:root /root/.kube/config
+

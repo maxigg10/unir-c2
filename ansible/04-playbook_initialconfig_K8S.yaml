@@ -8,12 +8,19 @@
   - name: Disable swap
     shell: swapoff -a
 
-  - name: Disable SWAP in fstab 
+  #- name: Disable SWAP in fstab 
+  #  replace:
+  #    path: /etc/fstab
+  #    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+  #    replace: '# \1'
+  
+  - name: Disable swap permanently, persist reboots
     replace:
       path: /etc/fstab
-      regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
-      replace: '# \1'
-  
+      regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+      replace: '#\1\2\3swap\4'
+      backup: yes
+
   - name: Enable firewalld service
     systemd:
       name: firewalld
@@ -31,7 +38,8 @@
     firewalld:  
       masquerade: yes
       state: enabled
-      #permanent: yes
+      permanent: yes
+      zone: public
       #inmediate: yes
 
 
