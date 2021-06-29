@@ -1,0 +1,24 @@
+---
+
+- hosts: workers:children
+  become: yes
+
+  tasks:
+
+  - name: Allow Port K8s services
+    firewalld:
+      permanent: yes
+      immediate: yes
+      port: "{{item.port}}/{{item.proto}}"
+      state: "{{item.state}}"
+    with_items:
+      - {port: "10250", proto: "tcp", state: "enabled"}
+      - {port: "30000-32767", proto: "tcp", state: "enabled"}
+
+  
+
+  - name: Copy the join command to server location
+    copy: src=join-command dest=/tmp/join-command.sh mode=0777
+
+  - name: Join the node to cluster
+    command: sh /tmp/join-command.sh
