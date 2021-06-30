@@ -57,7 +57,7 @@
   #- name: update kernel settings ipv6
   #  become: yes
   #  sysctl:
-  #    name: net.bridge.bridge-nf-call-ip4tables
+  #    name: net.bridge.bridge-nf-call-ip6tables
   #    value: 1
   #    sysctl_set: yes
   #    state: present
