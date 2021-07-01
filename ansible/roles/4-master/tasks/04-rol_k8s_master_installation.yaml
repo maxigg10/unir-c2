@@ -35,8 +35,8 @@
 - name: Pull images Kubeadm
   command: kubeadm config images pull  
 
-- name: Kubeadm init pod network
-  command: kubeadm init --pod-network-cidr 192.169.0.0/16
+#- name: Kubeadm init pod network
+#  command: kubeadm init --pod-network-cidr 192.169.0.0/16
 
 - name: Generate join command
   command: kubeadm token create --print-join-command
