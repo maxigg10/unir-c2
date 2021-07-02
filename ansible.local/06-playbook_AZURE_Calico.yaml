@@ -1,8 +1,0 @@
----
-
-- hosts: k8s:children
-  become: yes
-
-  tasks:
-
-  #### VER REPO PROFE #########

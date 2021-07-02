@@ -1,6 +1,0 @@
----
-
-- include_tasks: 04-rol_k8s_master_installation.yaml
-- include_tasks: 05-rol_Calico_installation.yaml
-- include_tasks: 06-rol_IngressController_installation.yaml
-- include_tasks: 07-rol_k8s_adminUser.yaml

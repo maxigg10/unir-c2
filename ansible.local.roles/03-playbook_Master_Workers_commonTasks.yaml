@@ -1,7 +1,0 @@
----
-#### Third Task  ####
-- name: Common task
-  hosts: k8s:children
-  become: yes
-  roles:
-    - 3-common_task
