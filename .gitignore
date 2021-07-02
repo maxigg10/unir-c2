@@ -11,6 +11,8 @@ credentials.tf.clear
 .terraform*
 *tfstate*
 
+ansible.local.roles
+ansible.local
 
 # Crash log files
 crash.log

@@ -54,7 +54,7 @@
  
 - name: Add lines en export file
   lineinfile:
-    path: /etc/exports
+    path: /etc/hosts
     state: present
     line: "{{ item }}"
 

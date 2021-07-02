@@ -47,9 +47,9 @@
       - lsof
     state: latest
 
-- name: Add lines en export file
+- name: Add lines to hosts file
   lineinfile:
-    path: /etc/exports
+    path: /etc/hosts
     state: present
     line: "{{ item }}"
 

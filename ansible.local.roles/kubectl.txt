@@ -1,6 +1,0 @@
-NAMESPACE            NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                     AGE
-calico-system        calico-typha              ClusterIP   10.102.78.13    <none>        5473/TCP                                    3s
-default              kubernetes                ClusterIP   10.96.0.1       <none>        443/TCP                                     13m
-haproxy-controller   haproxy-ingress           NodePort    10.107.252.25   <none>        80:31368/TCP,443:32075/TCP,1024:32510/TCP   4s
-haproxy-controller   ingress-default-backend   ClusterIP   10.98.28.237    <none>        8080/TCP                                    5s
-kube-system          kube-dns                  ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP                      13m
