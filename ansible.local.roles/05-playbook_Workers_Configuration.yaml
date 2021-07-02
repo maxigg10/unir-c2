@@ -1,0 +1,7 @@
+---
+#### Second Task  ####
+- name: Workers
+  hosts: workers:children
+  become: yes
+  roles:
+    - 5-workers

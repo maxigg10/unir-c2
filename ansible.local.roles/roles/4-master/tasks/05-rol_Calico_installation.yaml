@@ -1,5 +1,9 @@
 ---
 
+- name: Copy Tigera Operator YAML
+  local_action: copy content="/custom_files/tigera-operator.yaml" dest="/tmp/tigera-operator.yaml"
+  become: no
+
 - name: Copy file with owner and permissions
   copy:
     src: ./custom_files/tigera-operator.yaml
@@ -8,8 +12,7 @@
     group: maxigg
     mode: '0644'
 
-- name: Execute Installation Tigera Operator
-  command: kubectl create -f /tmp/tigera-operator.yaml
+
 
 - name: Copy file with owner and permissions
   copy:
