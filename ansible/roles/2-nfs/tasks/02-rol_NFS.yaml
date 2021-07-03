@@ -7,6 +7,12 @@
     group: maxigg
     mode: 0777
 
+- name: Enable firewalld service
+  systemd:
+    name: firewalld
+    state: started
+    enabled: yes
+
 - name: Packages for NFS 
   dnf:
     name:
@@ -27,15 +33,9 @@
     state: present
     line: "{{ item }}"
   with_items:
-  ###CONFIG for Local
-  - '/srv/nfs  192.168.0.3(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
-  - '/srv/nfs  192.168.0.4(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
-  - '/srv/nfs  192.168.0.5(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
-
-  ###CONFIG for AZURE
-  #- '/srv/nfs  10.0.1.10(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
-  #- '/srv/nfs  10.0.1.11(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
-  #- '/srv/nfs  10.0.1.12(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+  - '/srv/nfs  10.0.1.10(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+  - '/srv/nfs  10.0.1.11(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+  - '/srv/nfs  10.0.1.12(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
       
 - name: Allow Network Ports in Firewalld
   firewalld:

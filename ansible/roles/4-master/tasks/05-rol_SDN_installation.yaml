@@ -1,0 +1,24 @@
+---
+- name: Allow SDN Azure Ports
+  firewalld:
+    permanent: yes
+    immediate: yes
+    port: "{{item.port}}/{{item.proto}}"
+    state: "{{item.state}}"
+
+  with_items:
+    - {port: "8285", proto: "udp", state: "enabled"}
+    - {port: "8472", proto: "udp", state: "enabled"}
+
+- name: Copy file with owner and permissions
+  copy:
+    src: ./custom_files/canal.yaml
+    dest: /tmp/
+    owner: maxigg
+    group: maxigg
+    mode: '0644'
+
+- name: Execute Custom YAML
+  command: kubectl apply -f /tmp/canal.yaml
+
+

@@ -82,7 +82,7 @@ provider "azurerm" {
   tenant_id       --> lo obtenemos de la salida del service principal "tenant"
 
 
-# Ejecucion plan terraform #
+# Prerequisitos terraform #
 Nos posicionamos dentro de la carpeta terraform del repositorio y realizamos
 
 
@@ -91,17 +91,36 @@ az vm image accept-terms --urn cognosys:centos-8-stream-free:centos-8-stream-fre
 az vm image terms show --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810
 
 
-El primer comando es para aceptar los terminos de uso de la imagen que tenemos en el plan de terraform. Es un Centos-8-stream-free
+# Despliegue de la infraestructura de servidores en Azure con Terraform y despliegue de el cluster de Kubernetes con Ansible #
+En la raiz del directorio hay un fichero llamado  deploy_All.sh
 
-Despues realizamos lo siguiente
+Este fichero lo que hace es lo siguiente
+
+a) Ejecuta el plan de terraform para generar la maquinas virtuales
+b) Realiza automaticamente la conexion y desconexion por ssh a las 4 maquinas desplegadas para aceptar la clave publica.
+c) Nos preguntará si generamos las entradas con las IPs publicas y los hostname de las maquinas en nuestro archivo de Host.
+
+Esto es necesario ya que no es posible que las maquinas reciban IP publica fija
+
+Ejemplo Fichero: /etc/hosts
 
 
-terraform init
+xx.xx.xx.xx master.ipxsistemas.com
 
-terraform validate
+xx.xx.xx.xx worker01.ipxsistemas.com
 
-terraform apply
+xx.xx.xx.xx worker02.ipxsistemas.com
 
-Para destruir el entorno hacemos
+xx.xx.xx.xxx nfs.ipxsistemas.com
 
-terraform destroy
+
+Esta tarea no se puede omitir
+
+d) Una vez hecho el paso anterior, tipeamos "si" (sin comillas) para iniciar el despliegue del cluster con Ansible
+
+Esperamos hasta finalizar.
+
+Nota: El plan de terraform tiene un usuario llamado maxigg y cada playbook se le indica el usuario maxigg para instalar el cluster
+En caso de querer cambiar dicho usuario se debe hacer tanto en los ficheros de terraform como en las tareas de los roles.
+
+

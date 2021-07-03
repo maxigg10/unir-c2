@@ -1,5 +1,5 @@
-NAMESPACE            NAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                     AGE
-default              kubernetes                ClusterIP   10.96.0.1       <none>        443/TCP                                     52s
-haproxy-controller   haproxy-ingress           NodePort    10.97.155.134   <none>        80:32507/TCP,443:31194/TCP,1024:31408/TCP   3s
-haproxy-controller   ingress-default-backend   ClusterIP   10.97.227.167   <none>        8080/TCP                                    4s
-kube-system          kube-dns                  ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP                      48s
+NAMESPACE            NAME                      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                     AGE
+default              kubernetes                ClusterIP   10.96.0.1        <none>        443/TCP                                     38s
+haproxy-controller   haproxy-ingress           NodePort    10.109.210.201   <none>        80:30471/TCP,443:30946/TCP,1024:31718/TCP   8s
+haproxy-controller   ingress-default-backend   ClusterIP   10.98.55.56      <none>        8080/TCP                                    8s
+kube-system          kube-dns                  ClusterIP   10.96.0.10       <none>        53/UDP,53/TCP,9153/TCP                      36s

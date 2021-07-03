@@ -52,11 +52,20 @@
     path: /etc/hosts
     state: present
     line: "{{ item }}"
+
+###CONFIG for Local
   with_items:
-    - '10.0.1.10 master.ipxsistemas.com '
-    - '10.0.1.11 worker01.ipxsistemas.com'
-    - '10.0.1.12 worker02.ipxsistemas.com'
-    - '10.0.1.13 worker04.ipxsistemas.com'
+  - '192.168.0.3 master.ipxsistemas.com '
+  - '192.168.0.4 worker01.ipxsistemas.com'
+  - '192.168.0.5 worker02.ipxsistemas.com'
+  - '192.168.0.6 worker04.ipxsistemas.com'
+
+###CONFIG for Azure
+  #  with_items:
+  #  - '10.0.1.10 master.ipxsistemas.com '
+  #  - '10.0.1.11 worker01.ipxsistemas.com'
+  #  - '10.0.1.12 worker02.ipxsistemas.com'
+  #  - '10.0.1.13 worker04.ipxsistemas.com'
 
 
 - name: Reboot all VMs for applying SELinux config

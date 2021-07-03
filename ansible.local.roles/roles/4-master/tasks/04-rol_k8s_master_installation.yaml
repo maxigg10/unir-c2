@@ -22,10 +22,15 @@
     immediate: yes
     state: enabled
   with_items:
-    - 'rule family=ipv4 source address=10.0.1.11/32 accept'
-    - 'rule family=ipv4 source address=10.0.1.12/32 accept'
+    - 'rule family=ipv4 source address=192.168.0.4/32 accept'
+    - 'rule family=ipv4 source address=192.168.0.5/32 accept'
     - 'rule family=ipv4 source address=172.17.0.0/16 accept'
-    
+
+    #### for AZURE
+    #- 'rule family=ipv4 source address=10.0.1.11/32'
+    #- 'rule family=ipv4 source address=10.0.1.12/32'
+    #- 'rule family=ipv4 source address=172.17.0.0/16'
+
 
 - name: Pull images Kubeadm
   command: kubeadm config images pull  
@@ -41,7 +46,7 @@
   local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
   become: no
 
-  ######### OMIT kubectl
+  ######### NO hizo falta porque funciona el kubectl
 #- name: Export Kubeconfig to Root
 #  command: export KUBECONFIG=/etc/kubernetes/admin.conf
 #  become: true

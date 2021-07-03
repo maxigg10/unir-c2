@@ -1,0 +1,9 @@
+---
+####  Task  ####
+- name: Master
+  hosts: master
+  become: yes
+  roles:
+    - 4-master
+
+

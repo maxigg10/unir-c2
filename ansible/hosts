@@ -1,44 +1,20 @@
 [nfs]
-#en local
-nfs.ipxsistemas.com.ar
-#en Azure
-#nfs.ipxsistemas.com
+nfs.ipxsistemas.com
 
 [master]
-#en local
-master.ipxsistemas.com.ar
-#en Azure
-#master.ipxsistemas.com
+master.ipxsistemas.com
 
 [worker01]
-#en local
-worker01.ipxsistemas.com.ar
-#en Azure
-#worker01.ipxsistemas.com
+worker01.ipxsistemas.com
 
 [worker02]
-#en local
-worker02.ipxsistemas.com.ar
-#en Azure
-#worker02.ipxsistemas.com
+worker02.ipxsistemas.com
 
 [k8s:children]
-#en local
 master
 worker01
 worker02
 
-#en Azure
-#master.ipxsistemas.com
-#worker01.ipxsistemas.com
-#worker02.ipxsistemas.com
-
-
 [workers:children]
-#en local
 worker01
 worker02
-
-#en Azure
-#worker01.ipxsistemas.com
-#worker02.ipxsistemas.com
