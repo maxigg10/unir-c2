@@ -20,7 +20,8 @@ nfs.dominio.com
 
 
 # Clonacion de repositorio
-git clone https://github.com/maxigg10/unir-c2.git
+
+**git clone https://github.com/maxigg10/unir-c2.git**
 
 # Instalacion az cli #
 
@@ -63,7 +64,9 @@ f) Creacion del SERVICE PRINCIPAL
 Para ejecutar el plan de terraform debemos tener instalado el cliente de terraform
 **https://www.terraform.io/docs/cli/install/yum.html**
 
-Debemos crear un fichero **credentials.tf** con el siguiente contenido
+Debemos crear el fichero **credentials.tf** dentro del directorio terraform con el siguiente contenido
+
+**Este fichero esta dentro del .gitignore para no hacer publicas las credenciales**
 
 ```
 provider "azurerm" {
@@ -113,13 +116,15 @@ Dentro de cada uno de ellos se encuentra el codigo y las tareas para realizar el
 
 En la raiz del directorio hay un fichero llamado  **deploy_All_Azure.sh**
 
-Este fichero lo que hace es lo siguiente
+Este fichero lo que hace es lo siguiente:
 
-a) Ejecuta el plan de terraform para generar la maquinas virtuales
+a) Ejecuta el plan de terraform para generar la maquinas virtuales.
 b) Realiza automaticamente la conexion y desconexion por ssh a las 4 maquinas desplegadas para aceptar la clave publica.
 c) Nos preguntará si generamos las entradas con las IPs publicas y los hostname de las maquinas en nuestro archivo de Host.
 
 Esto es necesario ya que no es posible que las maquinas reciban IP publica fija
+
+Debemos agregar a nuestro archivo de hosts las IPs / Dominios de nuestras maquinas
 
 Ejemplo Fichero: **/etc/hosts**
 
@@ -133,23 +138,24 @@ xx.xx.xx.xx worker02.ipxsistemas.com
 xx.xx.xx.xxx nfs.ipxsistemas.com
 ```
 
-En todo el plan de terraform como en ansible esta con el dominio propuesto **ipxsistemas.com**
+Tanto en el plan de terraform como en las tareas de ansible, se ha seteado con el dominio propuesto **ipxsistemas.com**
 
-Esta tarea no se puede omitir
+En caso de modificarlo, es necesario repasar todos los ficheros y cambiar las ocurrencias por el dominio que prefieran.
+
+**Esta tarea no se puede omitir**
 
 d) Una vez hecho el paso anterior, tipeamos "**si**" (sin comillas) para iniciar el despliegue del cluster con Ansible
 
 Esperamos hasta finalizar.
 
-**Nota**: El plan de terraform tiene un usuario llamado maxigg y cada playbook se le indica el usuario maxigg para instalar el cluster
-En caso de querer cambiar dicho usuario se debe hacer tanto en los ficheros de terraform como en las tareas de los roles.
+**Nota**: El plan de terraform tiene la creacion de un usuario llamado **maxigg** para que con ansible nos podamos conectar por ssh y realizar las tareas de despligue. Este usuario se puede modificar pero es necesario cambiar las ocurrencias en los ficheros de terraform y ansible. 
+
 
 Una vez explicado lo que realiza el script, con solo ejecutarlo nos creara toda infraestructura en Azure y desplegara Kubernetes
 
 ```
 ./deploy_All_Azure.sh
 ```
-
 
 # Explicacion extra de ansible
 
@@ -169,14 +175,14 @@ En la cual tenemos
 * **name**: Seteamos un nombre descriptivo al playbook
 * **hosts**: Especificamos a que servidor o grupo de servidores le lanzaremos el playbook. Estos tags estan en el fichero hosts (inventario). El tag "all" aplica a todos
 * **become**: Le indicamos que escale privilegios
-* **roles**: Aplicamos el rol que esta compuesto entre otras cosas por tareas.
+* **roles**: Aplicamos el rol que esta compuesto entre otras cosas por tareas. Este nombre coincide con un directorio llamado igual dentro del directorio *roles/task*
 
 Para saber cuales son las tareas de dicho rol, debemos ir al directorio **roles/1-requirements/task**
 
 Dentro del mismo encontraremos ficheros yaml donde se describen las tareas y un fichero **main.yaml** donde
 incluiremos a cada grupo de tareas que pueden ser uno a mas ficheros yaml.
 
-En el mismo directorio "ansible"  encontraremos varios ficheros yaml dentro del directorio "custom_files", los mismos se dejan dentro del repositorio para evitar tener que descargarlos nuevamente y que estos ya no se encuentren disponibles
+En el mismo directorio **ansible**  encontraremos varios ficheros yaml dentro del directorio **custom_files**, los mismos se dejan dentro del repositorio para evitar tener que descargarlos nuevamente y que estos ya no se encuentren disponibles.
 
 Ademas en la raiz de la carpeta encontraremos estos 4 ficheros
 
