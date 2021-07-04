@@ -91,7 +91,7 @@ az vm image accept-terms --urn cognosys:centos-8-stream-free:centos-8-stream-fre
 az vm image terms show --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810
 
 
-# Despliegue de la infraestructura de servidores en Azure con Terraform y despliegue de el cluster de Kubernetes con Ansible #
+# Despliegue de la infraestructura de servidores en Azure con Terraform y despliegue del cluster de Kubernetes con Ansible #
 
 Los dos directorios que utilizaremos para realizar esta tarea es
 
@@ -137,19 +137,19 @@ Una vez explicado lo que realiza el script, con solo ejecutarlo nos creara toda 
 
 
 
-* Explicacion extra de ansible
+# Explicacion extra de ansible
 
 
 
 Cada playbook esta formado por esta estructura
 
-
+```
 - name: Requirements
   hosts: all
   become: yes
   roles:
     - 1-requirements
-
+```
 
 En la cual tenemos
 * name: Seteamos un nombre descriptivo al playbook
