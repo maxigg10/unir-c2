@@ -4,7 +4,7 @@
     comment: Admin User K8s
     shell: /bin/bash
     create_home: true 
-    password: "changeyourpass"
+    password: "changeyourpass"  ### Se recomienda cambiar la contraseña.
     append: yes
 
 - name: Setup kubeconfig for kubeadmin

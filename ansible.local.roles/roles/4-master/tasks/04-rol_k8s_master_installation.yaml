@@ -26,10 +26,7 @@
     - 'rule family=ipv4 source address=192.168.0.5/32 accept'
     - 'rule family=ipv4 source address=172.17.0.0/16 accept'
 
-    #### for AZURE
-    #- 'rule family=ipv4 source address=10.0.1.11/32'
-    #- 'rule family=ipv4 source address=10.0.1.12/32'
-    #- 'rule family=ipv4 source address=172.17.0.0/16'
+    
 
 
 - name: Pull images Kubeadm
@@ -38,20 +35,22 @@
 - name: Kubeadm init pod network
   command: kubeadm init --pod-network-cidr 192.169.0.0/16
 
+### Generamos el token para que los workers puedan unirse al cluster y dicha salida la registra en una variable "join_command"
 - name: Generate join command
   command: kubeadm token create --print-join-command
   register: join_command
+
+### El contenido de la variable join_command, la escribimos en un fichero local denominado join-command
+### Tendra un contenido similar a este
+### kubeadm join 192.168.0.3:6443 --token jvl3w5.kkecbd1fvz9xewli --discovery-token-ca-cert-hash sha256:2439d0002f59560dc8b55217ee541e0ae829fc048c9bc5e5df7b3b20df8b2996 
 
 - name: Copy join command to local file
   local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
   become: no
 
-  ######### NO hizo falta porque funciona el kubectl
-#- name: Export Kubeconfig to Root
-#  command: export KUBECONFIG=/etc/kubernetes/admin.conf
-#  become: true
 
-- name: Rights to root 
+
+- name: Setup kubeconfig for root
   command: "{{ item }}"
   with_items:
     - mkdir -p /root/.kube

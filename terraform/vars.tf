@@ -11,7 +11,7 @@ variable "vm_size" {
   type = string
   description = "Tamaño de la máquina virtual Master"
   #default = "Standard_D1_v2" # 3.5 GB, 1 CPU 
-  default = "Standard_B2s" # 4 GB, 2 CPU 
+  default = "Standard_B2s" # 4 GB, 2 CPU   ## se utiliza esta instancia que ya necesitamos 2 vcore al menos para master
 }
 
 variable "vm_size2" {

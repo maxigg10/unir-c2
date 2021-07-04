@@ -22,11 +22,11 @@
 - name: Enable ntp
   command: /usr/bin/timedatectl set-ntp true
 
-#### Disable SELinux ####
+
 - name: Disable SELinux
   selinux:
     state: disabled
-#### Upgrade Packages and Installation Custom ####
+
 - name: upgrade all packages
   dnf:
     name: "*"

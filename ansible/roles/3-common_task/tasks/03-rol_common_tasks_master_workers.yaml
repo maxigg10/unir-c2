@@ -107,7 +107,6 @@
       - kubelet 
       - kubeadm 
       - kubectl
-    #state: latest
     state: present
 
 - name: Enable K8s

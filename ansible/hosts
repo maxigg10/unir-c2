@@ -1,20 +1,26 @@
+### NFS Server
 [nfs]
 nfs.ipxsistemas.com
 
+### Master Kubernetes
 [master]
 master.ipxsistemas.com
 
+### Worker01 Node
 [worker01]
 worker01.ipxsistemas.com
 
+### Worker02 Node
 [worker02]
 worker02.ipxsistemas.com
 
+### All cluster members
 [k8s:children]
 master
 worker01
 worker02
 
+### Only Workers Nodes
 [workers:children]
 worker01
 worker02

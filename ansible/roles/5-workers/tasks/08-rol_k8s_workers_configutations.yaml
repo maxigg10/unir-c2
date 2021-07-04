@@ -10,10 +10,12 @@
     - {port: "30000-32767", proto: "tcp", state: "enabled"}
 
 
-
+### El fichero que incluye el join token, lo copio al destino en la ubicacion /tmp, la cambio la extension por .sh y
+### doy permisos de ejecucion para despues ejecutarlo remotamente y haga el join de los workers al master
 - name: Copy the join command to server location
   copy: src=join-command dest=/tmp/join-command.sh mode=0777
 
+### Ejecucion remota del join dentro de cada worker.
 - name: Join the node to cluster
   command: sh /tmp/join-command.sh
 

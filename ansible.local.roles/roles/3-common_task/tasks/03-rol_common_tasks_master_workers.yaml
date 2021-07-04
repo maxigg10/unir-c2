@@ -3,11 +3,6 @@
 - name: Disable swap
   shell: swapoff -a
 
-  #- name: Disable SWAP in fstab 
-  #  replace:
-  #    path: /etc/fstab
-  #    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
-  #    replace: '# \1'
 
 - name: Disable swap permanently, persist reboots
   replace:
@@ -28,7 +23,7 @@
     state: present
 
 
-#- name: Enable Masquerade
+
 - name: Enable Masquerade
   firewalld:  
     masquerade: yes
@@ -111,7 +106,6 @@
       - kubelet 
       - kubeadm 
       - kubectl
-    #state: latest
     state: present
 
 - name: Enable K8s

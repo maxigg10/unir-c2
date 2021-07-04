@@ -9,11 +9,17 @@
 
 - name: Execute Installation HA Proxy
   command: kubectl apply -f /tmp/haproxy-ingress.yaml
-  
+
+### Esto es algo extra para conocer los puertos del ingress. Si bien se puede obtener entrando al master,
+### prefiero obtenerlo de esta manera y guardar el resultado en un fichero.
+### Para ello la salida del comando se almacena en la variable store
 - name: Execute command to know ingress ports
   command: kubectl get svc -A
   register: store
 
+### El contenido de la variable store, lo copio a un fichero local kubectl.txt donde me mostrara los puertos del ingress
 - name: Store in file the output
   local_action: "copy content='{{ store.stdout }}' dest=./kubectl.txt"
   become: no
+
+  

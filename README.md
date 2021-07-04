@@ -92,7 +92,15 @@ az vm image terms show --urn cognosys:centos-8-stream-free:centos-8-stream-free:
 
 
 # Despliegue de la infraestructura de servidores en Azure con Terraform y despliegue de el cluster de Kubernetes con Ansible #
-En la raiz del directorio hay un fichero llamado  deploy_All.sh
+
+Los dos directorios que utilizaremos para realizar esta tarea es
+
+- ansible
+- terraform
+
+Dentro de cada uno de ellos se encuentra el codigo y las tareas para realizar el despliegue.
+
+En la raiz del directorio hay un fichero llamado  deploy_All_Azure.sh
 
 Este fichero lo que hace es lo siguiente
 
@@ -122,5 +130,46 @@ Esperamos hasta finalizar.
 
 Nota: El plan de terraform tiene un usuario llamado maxigg y cada playbook se le indica el usuario maxigg para instalar el cluster
 En caso de querer cambiar dicho usuario se debe hacer tanto en los ficheros de terraform como en las tareas de los roles.
+
+Una vez explicado lo que realiza el script, con solo ejecutarlo nos creara toda infraestructura en Azure y desplegara Kubernetes
+
+./deploy_All_Azure.sh
+
+
+
+* Explicacion extra de ansible
+
+
+
+Cada playbook esta formado por esta estructura
+
+
+- name: Requirements
+  hosts: all
+  become: yes
+  roles:
+    - 1-requirements
+
+
+En la cual tenemos
+* name: Seteamos un nombre descriptivo al playbook
+* hosts: Especificamos a que servidor o grupo de servidores le lanzaremos el playbook. Estos tags estan en el fichero hosts (inventario). El tag "all" aplica a todos
+* become: Le indicamos que escale privilegios
+* roles: Aplicamos el rol que esta compuesto entre otras cosas por tareas.
+
+Para saber cuales son las tareas de dicho rol, debemos ir al directorio roles/1-requirements/task
+
+Dentro del mismo encontraremos ficheros yaml donde se describen las tareas y un fichero main.yaml donde
+incluiremos a cada grupo de tareas que pueden ser uno a mas ficheros yaml.
+
+En el mismo directorio "ansible"  encontraremos varios ficheros yaml dentro del directorio "custom_files", los mismos se dejan dentro del repositorio para evitar tener que descargarlos nuevamente y que estos ya no se encuentren disponibles
+
+Ademas en la raiz de la carpeta encontraremos estos 3 ficheros
+
+join-command: Aqui se guardara automaticamente un token para unir los workers con el master
+kubectl.txt: Aqui nos imprimirá los puertos del ingress controller
+hosts: Es nuestro fichero de inventario de hosts
+vars: Es un ejemplo para definir variables, no se ha utilizado.
+
 
 
