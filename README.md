@@ -4,16 +4,20 @@ Caso Practico 2 - UNIR -
 
 En este repositorio veremos como desplegar con Terraform en AZURE y como instalar con ANSIBLE un cluster de Kubernetes compuesto de los siguientes equipos
 
-- Una maquina con rol de  Master
-- Dos maquinas con roles de  Workers
-- Una maquina para NFS
+- **Una maquina con rol de  Master**
+- **Dos maquinas con roles de  Workers**
+- **Una maquina para NFS**
 
-Definiremos FQDN
+**Definiremos FQDN**
+```
 EJ
+
 master.dominio.com
 worker01.dominio.com
 worker02.dominio.com
 nfs.dominio.com
+```
+
 
 # Clonacion de repositorio
 git clone https://github.com/maxigg10/unir-c2.git
@@ -22,42 +26,46 @@ git clone https://github.com/maxigg10/unir-c2.git
 
 Debemos instalar el az cli  (en CentOS 8)
 a)	Importamos la key del repositorio
-rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+**rpm --import https://packages.microsoft.com/keys/microsoft.asc**
 
 b)	Creamos el fichero .repo
 
+```
 echo -e "[azure-cli]
 name=Azure CLI
 baseurl=https://packages.microsoft.com/yumrepos/azure-cli
 enabled=1
 gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
-
+```
 c)	Instalamos el cli
-dnf install azure-cli
+
+**dnf install azure-cli**
 
 d) Login a azure
-az login
+
+**az login**
 
 e) Dentro de azure, vamos a suscripciones y copiamos el id
 
-az account set --subscription=id_copiado_de_Azure
+**az account set --subscription=id_copiado_de_Azure**
 
 //Guardamos la salida del comando
 
 f) Creacion del SERVICE PRINCIPAL
 
-az ad sp create-for-rbac --role="Contributor"
+**az ad sp create-for-rbac --role="Contributor"**
 
 //Guardamos la salida del comando
 
 # Instalacion Terraform #
 Para ejecutar el plan de terraform debemos tener instalado el cliente de terraform
-https://www.terraform.io/docs/cli/install/yum.html
+**https://www.terraform.io/docs/cli/install/yum.html**
 
-Debemos crear un fichero credentials.tf con el siguiente contenido
+Debemos crear un fichero **credentials.tf** con el siguiente contenido
 
-
+```
 provider "azurerm" {
 
   features {}
@@ -71,36 +79,39 @@ provider "azurerm" {
   tenant_id       = "id del tenant de Azure"
 
 }
+```
 
+  **subscription_id** --> lo obtenemos del portal de azure en suscripciones
 
-  subscription_id --> lo obtenemos del portal de azure en suscripciones
+  **client_id**       --> lo obtenemos de la salida del service principal "name"
 
-  client_id       --> lo obtenemos de la salida del service principal "name"
+  **client_secret**   --> lo obtenemos de la salida del service principal "secret"
 
-  client_secret   --> lo obtenemos de la salida del service principal "secret"
-
-  tenant_id       --> lo obtenemos de la salida del service principal "tenant"
+  **tenant_id**       --> lo obtenemos de la salida del service principal "tenant"
 
 
 # Prerequisitos terraform #
 Nos posicionamos dentro de la carpeta terraform del repositorio y realizamos
 
 
-az vm image accept-terms --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810
+**az vm image accept-terms --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810**
 
-az vm image terms show --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810
+**az vm image terms show --urn cognosys:centos-8-stream-free:centos-8-stream-free:1.2019.0810**
 
 
 # Despliegue de la infraestructura de servidores en Azure con Terraform y despliegue del cluster de Kubernetes con Ansible #
 
 Los dos directorios que utilizaremos para realizar esta tarea es
 
+```
 - ansible
 - terraform
+```
+
 
 Dentro de cada uno de ellos se encuentra el codigo y las tareas para realizar el despliegue.
 
-En la raiz del directorio hay un fichero llamado  deploy_All_Azure.sh
+En la raiz del directorio hay un fichero llamado  **deploy_All_Azure.sh**
 
 Este fichero lo que hace es lo siguiente
 
@@ -110,9 +121,9 @@ c) Nos preguntará si generamos las entradas con las IPs publicas y los hostname
 
 Esto es necesario ya que no es posible que las maquinas reciban IP publica fija
 
-Ejemplo Fichero: /etc/hosts
+Ejemplo Fichero: **/etc/hosts**
 
-
+```
 xx.xx.xx.xx master.ipxsistemas.com
 
 xx.xx.xx.xx worker01.ipxsistemas.com
@@ -120,21 +131,24 @@ xx.xx.xx.xx worker01.ipxsistemas.com
 xx.xx.xx.xx worker02.ipxsistemas.com
 
 xx.xx.xx.xxx nfs.ipxsistemas.com
+```
 
+En todo el plan de terraform como en ansible esta con el dominio propuesto **ipxsistemas.com**
 
 Esta tarea no se puede omitir
 
-d) Una vez hecho el paso anterior, tipeamos "si" (sin comillas) para iniciar el despliegue del cluster con Ansible
+d) Una vez hecho el paso anterior, tipeamos "**si**" (sin comillas) para iniciar el despliegue del cluster con Ansible
 
 Esperamos hasta finalizar.
 
-Nota: El plan de terraform tiene un usuario llamado maxigg y cada playbook se le indica el usuario maxigg para instalar el cluster
+**Nota**: El plan de terraform tiene un usuario llamado maxigg y cada playbook se le indica el usuario maxigg para instalar el cluster
 En caso de querer cambiar dicho usuario se debe hacer tanto en los ficheros de terraform como en las tareas de los roles.
 
 Una vez explicado lo que realiza el script, con solo ejecutarlo nos creara toda infraestructura en Azure y desplegara Kubernetes
 
+```
 ./deploy_All_Azure.sh
-
+```
 
 
 # Explicacion extra de ansible
@@ -152,24 +166,24 @@ Cada playbook esta formado por esta estructura
 ```
 
 En la cual tenemos
-* name: Seteamos un nombre descriptivo al playbook
-* hosts: Especificamos a que servidor o grupo de servidores le lanzaremos el playbook. Estos tags estan en el fichero hosts (inventario). El tag "all" aplica a todos
-* become: Le indicamos que escale privilegios
-* roles: Aplicamos el rol que esta compuesto entre otras cosas por tareas.
+* **name**: Seteamos un nombre descriptivo al playbook
+* **hosts**: Especificamos a que servidor o grupo de servidores le lanzaremos el playbook. Estos tags estan en el fichero hosts (inventario). El tag "all" aplica a todos
+* **become**: Le indicamos que escale privilegios
+* **roles**: Aplicamos el rol que esta compuesto entre otras cosas por tareas.
 
-Para saber cuales son las tareas de dicho rol, debemos ir al directorio roles/1-requirements/task
+Para saber cuales son las tareas de dicho rol, debemos ir al directorio **roles/1-requirements/task**
 
-Dentro del mismo encontraremos ficheros yaml donde se describen las tareas y un fichero main.yaml donde
+Dentro del mismo encontraremos ficheros yaml donde se describen las tareas y un fichero **main.yaml** donde
 incluiremos a cada grupo de tareas que pueden ser uno a mas ficheros yaml.
 
 En el mismo directorio "ansible"  encontraremos varios ficheros yaml dentro del directorio "custom_files", los mismos se dejan dentro del repositorio para evitar tener que descargarlos nuevamente y que estos ya no se encuentren disponibles
 
-Ademas en la raiz de la carpeta encontraremos estos 3 ficheros
+Ademas en la raiz de la carpeta encontraremos estos 4 ficheros
 
-join-command: Aqui se guardara automaticamente un token para unir los workers con el master
-kubectl.txt: Aqui nos imprimirá los puertos del ingress controller
-hosts: Es nuestro fichero de inventario de hosts
-vars: Es un ejemplo para definir variables, no se ha utilizado.
+* **join-command**: Aqui se guardara automaticamente un token para unir los workers con el master
+* **kubectl.txt**: Aqui nos imprimirá los puertos del ingress controller
+* **hosts**: Es nuestro fichero de inventario de hosts
+* **vars**: Es un ejemplo para definir variables, no se ha utilizado.
 
 
 
