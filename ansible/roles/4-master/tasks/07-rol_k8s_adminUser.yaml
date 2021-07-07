@@ -4,7 +4,7 @@
     comment: Admin User K8s
     shell: /bin/bash
     create_home: true 
-    password: "changeyourpass"
+    password: "changeyourpass"  ##Change the password after complete all Playbooks
     append: yes
 
 - name: Setup kubeconfig for kubeadmin

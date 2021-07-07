@@ -1,0 +1,19 @@
+---
+- name: Create directory for NFS
+  file:
+    path: /srv/nfs
+    state: directory
+    owner: maxigg
+    group: maxigg
+    mode: 0777
+
+- name: mount the nfsshare in client side
+  mount:
+    fstype: nfs
+    opts: defaults
+    dump: 0
+    passno: 0
+    state: mounted
+    src: "192.168.0.6:/srv/nfs"
+    path: "/srv/nfs"
+

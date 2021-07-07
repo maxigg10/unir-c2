@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: kanboard
+  name: app
+  labels:
+    app: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - image: kanboard/kanboard
+          name: app
+          volumeMounts:
+            - name: kanboard-config
+              mountPath: srv/nfs/var/www/app/config.php
+              subPath: config.php
+            - name: kanboard-app
+              mountPath: srv/nfs/var/www/app/data
+              subPath: data
+            - name: kanboard-app
+              mountPath: srv/nfs/var/www/app/plugins
+              subPath: plugins
+      volumes:
+        - name: kanboard-app
+          persistentVolumeClaim:
+            claimName: kanboard-app
+        - name: kanboard-config
+          configMap:
+            name: kanboard-config

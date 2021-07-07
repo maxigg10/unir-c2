@@ -57,7 +57,7 @@
   - '192.168.0.3 master.ipxsistemas.com '
   - '192.168.0.4 worker01.ipxsistemas.com'
   - '192.168.0.5 worker02.ipxsistemas.com'
-  - '192.168.0.6 worker04.ipxsistemas.com'
+  - '192.168.0.6 nfs.ipxsistemas.com'
 
 
 

@@ -1,0 +1,1 @@
+kubeadm join 192.168.0.3:6443 --token or72jt.hobjwbobcj2otggf --discovery-token-ca-cert-hash sha256:15ef53ad6c8bd6cf807c346557e0e0bee8c17c5e89971d654cadd1dac5dcb0ea 

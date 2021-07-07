@@ -1,7 +1,7 @@
 ---
 - name: Create directory for Kanboard
   file:
-    path: /src/nfs/var/data/config/kanboard
+    path: /var/data/config/kanboard
     state: directory
     owner: root
     group: root
@@ -17,11 +17,18 @@
 
 - name: Copy file with owner and permissions
   copy:
-    src: ./k8s_deploys/kanboard/*
+    src: "{{ item }}"
     dest: /tmp/k8s/kandboard/
     owner: maxigg
     group: maxigg
     mode: '0644'
+  loop:
+    - /k8s_deploys/kandboard/config.php
+    - /k8s_deploys/kandboard/deployment.yaml
+    - /k8s_deploys/kandboard/namespace.yaml
+    - /k8s_deploys/kandboard/persistent-volumeclain.yaml
+    - /k8s_deploys/kandboard/service.yaml
+    
 
 - name: Execute Custom YAML
   command: kubectl create -f /tmp/k8s/kanboard/namespace.yaml

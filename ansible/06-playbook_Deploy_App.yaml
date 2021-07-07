@@ -1,0 +1,7 @@
+---
+#### Second Task  ####
+- name: DeployApp
+  hosts: master
+  become: yes
+  roles:
+    - 6-DeployApp

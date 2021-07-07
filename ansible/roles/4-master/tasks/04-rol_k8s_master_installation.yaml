@@ -33,16 +33,15 @@
 - name: Kubeadm init pod network
   command: kubeadm init --pod-network-cidr 192.169.0.0/16
 
-### Generamos el token para que los workers puedan unirse al cluster y dicha salida la registra en una variable "join_command"
 
 
+### Generate a token for join workers to master. this output is saved into a var "join_command"
 - name: Generate join command
   command: kubeadm token create --print-join-command
   register: join_command
 
-### El contenido de la variable join_command, la escribimos en un fichero local denominado join-command
-### Tendra un contenido similar a este
-### kubeadm join 10.0.1.10:6443 --token jvl3w5.kkecbd1fvz9xewli --discovery-token-ca-cert-hash sha256:2439d0002f59560dc8b55217ee541e0ae829fc048c9bc5e5df7b3b20df8b2996 
+### The content of this var is write into a file
+
 
 - name: Copy join command to local file
   local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"

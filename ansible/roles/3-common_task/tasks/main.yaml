@@ -1,3 +1,3 @@
 ---
-
+- include_tasks: 03a-rol_mountNFS_master_worker.yaml 
 - include_tasks: 03-rol_common_tasks_master_workers.yaml

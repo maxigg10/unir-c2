@@ -56,7 +56,7 @@
     - '10.0.1.10 master.ipxsistemas.com '
     - '10.0.1.11 worker01.ipxsistemas.com'
     - '10.0.1.12 worker02.ipxsistemas.com'
-    - '10.0.1.13 worker04.ipxsistemas.com'
+    - '10.0.1.13 nfs.ipxsistemas.com'
 
 
 - name: Reboot all VMs for applying SELinux config

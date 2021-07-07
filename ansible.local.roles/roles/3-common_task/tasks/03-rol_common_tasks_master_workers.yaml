@@ -11,6 +11,9 @@
     replace: '#\1\2\3swap\4'
     backup: yes
 
+
+  
+
 - name: Enable firewalld service
   systemd:
     name: firewalld
@@ -58,8 +61,6 @@
   yum_repository:
     name: donwload.docker.com_linux_centos_docker-ce-repo
     state: absent
-
-
 
 
 - name: Docker installation.

@@ -1,7 +1,7 @@
 ---
 - name: Create directory for NFS
   file:
-    path: /src/nfs
+    path: /srv/nfs
     state: directory
     owner: maxigg
     group: maxigg
@@ -27,17 +27,24 @@
     state: started
     enabled: yes
 
-
-- name: Add lines en export file
+### NEW #####
+- name: Add lines in export file
   lineinfile:
     path: /etc/exports
     state: present
     line: "{{ item }}"
   with_items:
-  - '/srv/nfs  192.168.0.3(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
-  - '/srv/nfs  192.168.0.4(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
-  - '/srv/nfs  192.168.0.5(sync,wdelay,hide,no_subtree_check,sec=sys,rw,secure,root_squash,no_all_squash)'
+  - '/srv/nfs	192.168.0.3(rw,sync)'
+  - '/srv/nfs	192.168.0.4(rw,sync)'
+  - '/srv/nfs	192.168.0.5(rw,sync)'
 
+- name: execute exportfs -r
+  command: exportfs -r
+
+- name: execute exportfs -s
+  command: exportfs -s
+
+### NEW #####
         
 - name: Allow Network Ports in Firewalld
   firewalld:
