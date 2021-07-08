@@ -1,72 +1,61 @@
 ---
-- name: Create directory for Kanboard
-  file:
-    path: srv/nfs/var/data/config/kanboard
-    state: directory
-    owner: root
-    group: root
-    mode: 0777
 
-- name: Create directory for Kanboard
+- name: Create directory K8s Apps yamñ
   file:
-    path: /tmp/k8s/kanboard
+    path: /tmp/k8s_apps
     state: directory
     owner: maxigg
     group: maxigg
     mode: 0777
 
-
-
-- name: Copy file with owner and permissions
+- name: Copy App K8s MySQL
   copy:
-    src: "{{item}}"
-    dest: /tmp/k8s/kandboard
+    src: ./k8s_apps/mysql-deployment.yaml
+    dest: /tmp/k8s_apps/
     owner: maxigg
     group: maxigg
     mode: '0644'
-  with_items:
-    - './k8s_deploys/kanboard/*'
-  
-    
 
-- name: Execute Custom YAML
-  command: kubectl create -f /tmp/k8s/kanboard/namespace.yaml
-
-- name: Execute Custom YAML
-  command: kubectl create -f /tmp/k8s/kanboard/persistent-volumeclaim.yaml
-
-- name: Kanboard Config
+- name: Copy App K8s Wordpress
   copy:
-    src: ./k8s_deploys/kanboard/config.php
-    dest: /var/data/config/kanboard/
-    owner: root
-    group: root
+    src: ./k8s_apps/wordpress-deployment.yaml
+    dest: /tmp/k8s_apps/
+    owner: maxigg
+    group: maxigg
     mode: '0644'
 
-- name: Execute Custom YAML
-  command: kubectl create configmap -n kanboard kanboard-config --from-file=config.php
+- name: Copy App K8s Wordpress
+  copy:
+    src: ./k8s_apps/kustomization.yaml
+    dest: /tmp/k8s_apps/
+    owner: maxigg
+    group: maxigg
+    mode: '0644'
 
-- name: Execute Custom YAML
-  command: kubectl create -f /tmp/k8s/kanboard/deployment.yaml
+- name: Create directory for Wordpress
+  file:
+    path: /srv/nfs/var/www/html
+    state: directory
+    owner: nobody
+    group: nobody
+    mode: 0777
 
+- name: Create directory for MySQL
+  file:
+    path: /srv/nfs/var/lib/mysql
+    state: directory
+    owner: nobody
+    group: nobody
+    mode: 0777
 
-- name: Execute Custom YAML
-  command: kubectl create -f /tmp/k8s/kanboard/service.yaml
+#- name: Execute Custom YAML MySQL
+#  command: kubectl apply -k /tmp/k8s_apps/kustomization.yaml
 
+#- name: Execute Custom YAML MySQL
+#  command: kubectl apply -k /tmp/k8s_apps/mysql-deployment.yaml
 
-- name: Execute Custom YAML
-  command: kubectl delete configmap -n kanboard kanboard-config
-  
-- name: Execute Custom YAML
-  command: kubectl create configmap -n kanboard kanboard-config --from-file=config.php
+#- name: Execute Custom YAML MySQL
+#  command: kubectl apply -k /tmp/k8s_apps/wordpress-deployment.yaml
 
-- name: Execute Custom YAML
-  command: kubectl patch -n kanboard deployment app -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
-
-
-
-
-  
-
-
-
+- name: K8s app
+  command: kubectl create deployment hello-http --image=httpd:lastest

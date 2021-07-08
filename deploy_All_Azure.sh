@@ -4,7 +4,7 @@ echo ""
 echo "-----------------------"
 echo  "Desplegando TERRAFORM"
 echo "-----------------------"
-#sh ./terraform/apply_terraform.sh
+sh ./terraform/apply_terraform.sh
 
 echo ""
 
