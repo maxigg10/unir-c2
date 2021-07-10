@@ -113,3 +113,8 @@
   systemd:
     name: kubelet
     state: started
+    enabled: yes
+
+ 
+ 
+    

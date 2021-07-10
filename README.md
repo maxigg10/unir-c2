@@ -157,6 +157,8 @@ Una vez explicado lo que realiza el script, con solo ejecutarlo nos creara toda 
 ./deploy_All_Azure.sh
 ```
 
+e) El ultimo paso del plan de ansible es el despliegue de un nginx.
+
 # Explicacion extra de ansible
 
 
@@ -183,6 +185,8 @@ Dentro del mismo encontraremos ficheros yaml donde se describen las tareas y un 
 incluiremos a cada grupo de tareas que pueden ser uno a mas ficheros yaml.
 
 En el mismo directorio **ansible**  encontraremos varios ficheros yaml dentro del directorio **custom_files**, los mismos se dejan dentro del repositorio para evitar tener que descargarlos nuevamente y que estos ya no se encuentren disponibles.
+
+Tambien encontraremos el directorio **k8s_apps** donde tenemos un yaml para desplegar un nginx
 
 Ademas en la raiz de la carpeta encontraremos estos 4 ficheros
 
